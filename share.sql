@@ -1,7 +1,7 @@
 -- --------------------------------------------------------
 -- Host:                         localhost
--- Server version:               10.2.3-MariaDB-log - mariadb.org binary distribution
--- Server OS:                    Win32
+-- Server version:               5.7.19 - MySQL Community Server (GPL)
+-- Server OS:                    Win64
 -- HeidiSQL Version:             9.4.0.5125
 -- --------------------------------------------------------
 
@@ -11,28 +11,24 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
-
--- Dumping database structure for share
-CREATE DATABASE IF NOT EXISTS `share` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `share`;
-
 -- Dumping structure for table share.activations
 CREATE TABLE IF NOT EXISTS `activations` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
   `code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `completed` tinyint(1) NOT NULL DEFAULT 0,
+  `completed` tinyint(1) NOT NULL DEFAULT '0',
   `completed_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table share.activations: ~0 rows (approximately)
+-- Dumping data for table share.activations: ~2 rows (approximately)
 /*!40000 ALTER TABLE `activations` DISABLE KEYS */;
 INSERT INTO `activations` (`id`, `user_id`, `code`, `completed`, `completed_at`, `created_at`, `updated_at`) VALUES
 	(1, 1, 'PZUQPThTffLAC7mK1Qcaxq1AYeethwvx', 1, '2018-06-03 10:05:45', '2018-06-03 10:05:45', '2018-06-03 10:05:45'),
-	(2, 2, 'vSidUmCBCzJPvCPO9ZVrPkk5sAYDseMU', 1, '2018-06-03 10:14:02', '2018-06-03 10:14:02', '2018-06-03 10:14:02');
+	(2, 2, 'vSidUmCBCzJPvCPO9ZVrPkk5sAYDseMU', 1, '2018-06-03 10:14:02', '2018-06-03 10:14:02', '2018-06-03 10:14:02'),
+	(3, 4, '0khQngLryR1D4XyTBtTnTELc27cNDv2e', 1, '2018-06-11 14:37:02', '2018-06-11 14:37:02', '2018-06-11 14:37:02');
 /*!40000 ALTER TABLE `activations` ENABLE KEYS */;
 
 -- Dumping structure for table share.migrations
@@ -71,10 +67,17 @@ CREATE TABLE IF NOT EXISTS `persistences` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `persistences_code_unique` (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table share.persistences: ~0 rows (approximately)
+-- Dumping data for table share.persistences: ~6 rows (approximately)
 /*!40000 ALTER TABLE `persistences` DISABLE KEYS */;
+INSERT INTO `persistences` (`id`, `user_id`, `code`, `created_at`, `updated_at`) VALUES
+	(1, 1, 'u4Zs3avSeQlSuxdfBoef12IYHbbGAiTG', '2018-06-11 14:54:38', '2018-06-11 14:54:38'),
+	(2, 1, 'fklTMOLWgkFPAoTTyVaIrnX4K7z2aPah', '2018-06-11 14:54:38', '2018-06-11 14:54:38'),
+	(3, 1, '0hzSkAuychYKxIhjt1QB6ADDLxHTeMMw', '2018-06-11 14:55:00', '2018-06-11 14:55:00'),
+	(4, 2, '4JIFJun98SiRxIGxNUpXVO3BZvnipl8v', '2018-06-11 14:56:51', '2018-06-11 14:56:51'),
+	(5, 2, 'TjCXZWkg0wK6mIMFuPzhgPmKvSffbeK8', '2018-06-11 15:19:18', '2018-06-11 15:19:18'),
+	(6, 1, 'WdybMCyEqUymffVD5mvS9oeZ9bLNJR0R', '2018-06-11 15:19:34', '2018-06-11 15:19:34');
 /*!40000 ALTER TABLE `persistences` ENABLE KEYS */;
 
 -- Dumping structure for table share.reminders
@@ -82,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `reminders` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
   `code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `completed` tinyint(1) NOT NULL DEFAULT 0,
+  `completed` tinyint(1) NOT NULL DEFAULT '0',
   `completed_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -98,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `permissions` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `permissions` text COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -143,22 +146,24 @@ CREATE TABLE IF NOT EXISTS `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `permissions` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `permissions` text COLLATE utf8mb4_unicode_ci,
   `last_login` timestamp NULL DEFAULT NULL,
   `name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `gender` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `age` double(3,0) NOT NULL,
   `share_with` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_username_unique` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table share.users: ~0 rows (approximately)
+-- Dumping data for table share.users: ~2 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` (`id`, `username`, `password`, `permissions`, `last_login`, `name`, `gender`, `share_with`, `created_at`, `updated_at`) VALUES
-	(1, '01784255196', '$2y$10$PCjJwXb9VyDv5MpsauaDVuWwM0xNryUxcDJZ93Q/0KkH0vCFjcAEC', NULL, NULL, 'Neher', 'Male', 'Male', '2018-06-03 10:05:45', '2018-06-03 10:05:45'),
-	(2, '01765768609', '$2y$10$mu3mPWLVoG.raGcuxjmUfOXtV//puTSpZc.6kufjZoDSVlgMrAQuK', NULL, NULL, 'Shreshtha', 'Female', 'Female', '2018-06-03 10:14:02', '2018-06-03 10:14:02');
+INSERT INTO `users` (`id`, `username`, `password`, `permissions`, `last_login`, `name`, `gender`, `age`, `share_with`, `created_at`, `updated_at`) VALUES
+	(1, '01784255196', '$2y$10$PCjJwXb9VyDv5MpsauaDVuWwM0xNryUxcDJZ93Q/0KkH0vCFjcAEC', NULL, '2018-06-11 15:19:34', 'Neher', 'Male', 0, 'Male', '2018-06-03 10:05:45', '2018-06-11 15:19:34'),
+	(2, '01765768609', '$2y$10$mu3mPWLVoG.raGcuxjmUfOXtV//puTSpZc.6kufjZoDSVlgMrAQuK', NULL, '2018-06-11 15:19:18', 'Shreshtha', 'Female', 0, 'Female', '2018-06-03 10:14:02', '2018-06-11 15:19:18'),
+	(4, '01765768600', '$2y$10$qaLKcwalBUGdD5JlywmdNeeNPE3BkgLX33eBNxcUAoZpNCBJgVwDi', NULL, NULL, 'Test', 'Female', 18, 'Both', '2018-06-11 14:37:01', '2018-06-11 14:37:01');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
