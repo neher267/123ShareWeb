@@ -16,7 +16,7 @@ class RequestController extends Controller
      */
     public function index()
     {
-        //
+        // Bitvise SSH Client; Ip: 139.162.60.218
     }
 
     /**
@@ -47,27 +47,29 @@ class RequestController extends Controller
         {
             $user_request = new CurrentRequest;
             $user_request->user_id = $user->id;
-            $user_request->gender = $user->gender;
+            $user_request->share_with = $user->share_with;
             $user_request->lat = $request->lat;
             $user_request->lng = $request->lng;
             $user_request->des_lat = $request->des_lat;
             $user_request->des_lng = $request->des_lng;
             $user_request->country_code = $request->country_code;
             $user_request->address = $request->address;
-            $user_request->status = $request->status;
             $user_request->save();
 
-            if($user->share_with == "Both"){
+            if($user->share_with == "B"){
                 $current_requests = CurrentRequest::where('address', $user_request->address)
+                                    ->where('user_id', '!=', $user->id)
                                     ->where('status', 1)
-                                    ->where('user_id', '!=', $user->id)->get();
+                                    ->where('share_with', 'B')
+                                    ->orWhere('share_with', $user->gender)
+                                    ->get();
             }
             else{
                 $current_requests = CurrentRequest::where('address', $user_request->address)
+                                    ->where('user_id', '!=', $user->id)                                    
                                     ->where('status', 1)
-                                    ->where('user_id', '!=', $user->id)
-                                    ->where('gender', $user->share_with)->get();
-            }            
+                                    ->where('share_with', $user->share_with)
+                                    ->get();            }            
             return new CurrentRequests($current_requests);
         }
         else
