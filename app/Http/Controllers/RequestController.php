@@ -37,18 +37,11 @@ class RequestController extends Controller
      */
     public function store(Request $request)
     {
+        //return "Neher";
+        /*$credentials = array();
+        $credentials['username'] = $request->username;
+        $credentials['password'] = $request->password;*/
 
-        {
-    /*"username": "01765768601",
-    "password": "123456",
-    "lat":"23.10",
-    "lng":"31.10",
-    "des_lat":"23.20",
-    "des_lng":"31.20",
-    "country_code":"BD",
-    "address":"Dhanmondi",
-    "status":"1"*/
-}
         $user = Sentinel::authenticate($request->all());
         if($user)
         {
